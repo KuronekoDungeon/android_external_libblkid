@@ -82,9 +82,9 @@ static int nilfs_valid_sb(blkid_probe pr, struct nilfs_super_block *sb, int is_b
 		return 0;
 
 	bytes = le16_to_cpu(sb->s_bytes);
-	crc = crc32(le32_to_cpu(sb->s_crc_seed), (unsigned char *)sb, sumoff);
-	crc = crc32(crc, sum, 4);
-	crc = crc32(crc, (unsigned char *)sb + sumoff + 4, bytes - sumoff - 4);
+	crc = crc32_ext(le32_to_cpu(sb->s_crc_seed), (unsigned char *)sb, sumoff);
+	crc = crc32_ext(crc, sum, 4);
+	crc = crc32_ext(crc, (unsigned char *)sb + sumoff + 4, bytes - sumoff - 4);
 
 	return blkid_probe_verify_csum(pr, crc, le32_to_cpu(sb->s_sum));
 }
